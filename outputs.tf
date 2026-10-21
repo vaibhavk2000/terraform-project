@@ -1,15 +1,14 @@
-
 output "instance_id" {
   description = "EC2 instance ID"
-  value       = aws_instance.my_ec2.id
+  value       = aws_instance.app_server.id
 }
 
 output "ami_id" {
   description = "AMI used by the instance"
-  value       = aws_instance.my_ec2.ami
+  value       = aws_instance.app_server.ami
 }
 
 output "private_ip" {
   description = "Private IP address"
-  value       = aws_instance.my_ec2.private_ip
+  value       = aws_instance.app_server.private_ip
 }
