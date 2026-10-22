@@ -1,8 +1,9 @@
-
 pipeline {
+
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -23,45 +24,14 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                withCredentials([
-                    [$class: 'AmazonWebServicesCredentialsBinding',
-                     credentialsId: 'aws-credentials']
-                ]) {
-                    sh 'terraform plan -out=tfplan'
-                }
-            }
-        }
-
-        stage('Approve Apply') {
-            steps {
-                input message: 'Do you want to create the EC2 instance?',
-                      ok: 'Apply Terraform'
+                sh 'terraform plan'
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                withCredentials([
-                    [$class: 'AmazonWebServicesCredentialsBinding',
-                     credentialsId: 'aws-credentials']
-                ]) {
-                    sh 'terraform apply -auto-approve tfplan'
-                }
+                sh 'terraform apply -auto-approve'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'EC2 instance deployment completed successfully!'
-        }
-
-        failure {
-            echo 'Pipeline failed. Check the Jenkins console output.'
-        }
-
-        always {
-            sh 'rm -f tfplan'
         }
     }
 }
