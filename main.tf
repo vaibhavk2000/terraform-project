@@ -3,6 +3,6 @@ resource "aws_instance" "app_server" {
   instance_type = "t3.micro"
 
   tags = {
-    Name = "vaibhav-server"
+    Name = "demo-server"
   }
 }
